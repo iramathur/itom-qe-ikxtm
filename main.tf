@@ -4,14 +4,14 @@ resource "random_id" "server" {
 
 resource "azurerm_resource_group" "rg" {
   name     = "${var.resource_group}-${random_id.server.hex}"
-  location = var.region
+  location = var.location
 }
 
 
 
 resource "azurerm_availability_set" "avset" {
   name                         = "avset${random_id.server.hex}"
-  location                     = var.region
+  location                     = var.location
   resource_group_name          = azurerm_resource_group.rg.name
   platform_fault_domain_count  = 2
   platform_update_domain_count = 2
@@ -20,7 +20,7 @@ resource "azurerm_availability_set" "avset" {
 
 resource "azurerm_public_ip" "lbpip" {
   name                = "${random_id.server.hex}-ip"
-  location            = var.region
+  location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Dynamic"
   domain_name_label   = "lb${random_id.server.hex}"
@@ -28,7 +28,7 @@ resource "azurerm_public_ip" "lbpip" {
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "${random_id.server.hex}${var.virtual_network_name}"
-  location            = var.region
+  location            = var.location
   address_space       = [var.address_space]
   resource_group_name = azurerm_resource_group.rg.name
 }
@@ -43,7 +43,7 @@ resource "azurerm_subnet" "subnet" {
 resource "azurerm_lb" "lb" {
   resource_group_name = azurerm_resource_group.rg.name
   name                = "lb${random_id.server.hex}"
-  location            = var.region
+  location            = var.location
 
   frontend_ip_configuration {
     name                 = "LoadBalancerFrontEnd"
