@@ -40,8 +40,8 @@ variable "vm_count_per_subnet" {
   default     = 2
 }
 
-variable "region" {
-  description = "The location/region where the virtual network is created. Changing this forces a new resource to be created."
+variable location {
+  description = "The Azure location in which all resources in this example should be created."
 }
 
 variable "virtual_network_name" {
