@@ -84,7 +84,7 @@ resource "azurerm_lb_probe" "lb_probe" {
 
 resource "azurerm_network_interface" "nic" {
   name                = "nic${count.index}${random_id.server.hex}"
-  location            = var.region
+  location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
   count               = var.vm_count_per_subnet
 
@@ -98,7 +98,7 @@ resource "azurerm_network_interface" "nic" {
 
 resource "azurerm_virtual_machine" "vm" {
   name                  = "vms${count.index}${random_id.server.hex}"
-  location              = var.region
+  location              = var.location
   resource_group_name   = azurerm_resource_group.rg.name
   availability_set_id   = azurerm_availability_set.avset.id
   vm_size               = var.vm_size
